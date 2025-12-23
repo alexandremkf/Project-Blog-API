@@ -1,3 +1,5 @@
+// Prisma schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +9,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Usuários do blog
 model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique
@@ -17,6 +20,7 @@ model User {
   createdAt DateTime @default(now())
 }
 
+// Posts do blog
 model Post {
   id        Int       @id @default(autoincrement())
   title     String
@@ -29,6 +33,7 @@ model Post {
   updatedAt DateTime  @updatedAt
 }
 
+// Comentários nos posts
 model Comment {
   id        Int      @id @default(autoincrement())
   content   String
@@ -39,6 +44,7 @@ model Comment {
   createdAt DateTime @default(now())
 }
 
+// Roles possíveis
 enum Role {
   ADMIN
   USER

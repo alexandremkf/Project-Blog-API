@@ -6,21 +6,23 @@ const commentsController = require('../controllers/comments.controller');
 
 // Middlewares
 const { authenticate } = require('../middleware/auth.middleware');
-const { requireAdmin } = require('../middleware/role.middleware');
+const { authorizeRoles } = require('../middleware/role.middleware');
 
-// Publicar comentário
-router.put('/:id/publish', authenticate, requireAdmin, commentsController.publishComment);
+/**
+ * ROTAS DE COMENTÁRIOS
+ */
 
-// Despublicar comentário
-router.put('/:id/unpublish', authenticate, requireAdmin, commentsController.unpublishComment);
+// Rotas públicas
+router.get('/post/:postId', commentsController.getCommentsByPost); // Listar comentários de um post
+
+// Rotas protegidas (usuário logado)
+router.post('/:postId', authenticate, authorizeRoles('USER', 'AUTHOR', 'ADMIN'), commentsController.createComment); // Criar comentário
+
+// Publicar / despublicar comentários
+router.put('/:id/publish', authenticate, authorizeRoles('ADMIN', 'USER'), commentsController.publishComment);
+router.put('/:id/unpublish', authenticate, authorizeRoles('ADMIN', 'USER'), commentsController.unpublishComment);
 
 // Deletar comentário
-router.delete('/:id', authenticate, requireAdmin, commentsController.deleteComment);
-
-// Públicas
-router.get('/post/:postId', commentsController.getCommentsByPost);
-
-// Temporariamente aberta (depois vai ser protegida)
-router.post('/', commentsController.createComment);
+router.delete('/:id', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), commentsController.deleteComment);
 
 module.exports = router;
