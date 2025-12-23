@@ -33,6 +33,7 @@ model Comment {
   id        Int      @id @default(autoincrement())
   content   String
   username  String
+  published Boolean  @default(false)
   postId    Int
   post      Post     @relation(fields: [postId], references: [id])
   createdAt DateTime @default(now())

@@ -58,3 +58,37 @@ exports.createPost = async (req, res) => {
     res.status(400).json({ error: 'Erro ao criar post' });
   }
 };
+
+// PUT /posts/:id/publish
+exports.publishPost = async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const post = await prisma.post.update({
+      where: { id },
+      data: { published: true },
+    });
+
+    res.json({ message: 'Post publicado com sucesso', post });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: 'Erro ao publicar post' });
+  }
+};
+
+// PUT /posts/:id/unpublish
+exports.unpublishPost = async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const post = await prisma.post.update({
+      where: { id },
+      data: { published: false },
+    });
+
+    res.json({ message: 'Post despublicado com sucesso', post });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: 'Erro ao despublicar post' });
+  }
+};

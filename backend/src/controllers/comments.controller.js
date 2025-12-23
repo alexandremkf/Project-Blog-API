@@ -34,3 +34,51 @@ exports.createComment = async (req, res) => {
     res.status(400).json({ error: 'Erro ao criar comentário' });
   }
 };
+
+// PUT /comments/:id/publish
+exports.publishComment = async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const comment = await prisma.comment.update({
+      where: { id },
+      data: { published: true },
+    });
+
+    res.json({
+      message: 'Comentário publicado com sucesso',
+      comment,
+    });
+  } catch (err) {
+    console.error('Erro ao publicar comentário:', err);
+
+    res.status(400).json({
+      error: 'Erro ao publicar comentário',
+      details: err.message,
+    });
+  }
+};
+
+// PUT /comments/:id/unpublish
+exports.unpublishComment = async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const comment = await prisma.comment.update({
+      where: { id },
+      data: { published: false },
+    });
+
+    res.json({
+      message: 'Comentário despublicado com sucesso',
+      comment,
+    });
+  } catch (err) {
+    console.error('Erro ao despublicar comentário:', err);
+
+    res.status(400).json({
+      error: 'Erro ao despublicar comentário',
+      details: err.message,
+    });
+  }
+};
