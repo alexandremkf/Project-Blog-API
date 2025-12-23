@@ -1,4 +1,5 @@
-const prisma = require('../prisma');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 // GET /posts
 exports.getPublishedPosts = async (req, res) => {
@@ -55,7 +56,8 @@ exports.createPost = async (req, res) => {
 
     res.status(201).json(post);
   } catch (err) {
-    res.status(400).json({ error: 'Erro ao criar post' });
+    console.error('Erro ao criar post:', err);
+    res.status(400).json({ error: 'Erro ao criar post', details: err.message });
   }
 };
 
@@ -90,5 +92,39 @@ exports.unpublishPost = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: 'Erro ao despublicar post' });
+  }
+};
+
+// PUT /posts/:id
+exports.updatePost = async (req, res) => {
+  const id = Number(req.params.id);
+  const { title, content } = req.body;
+
+  try {
+    const post = await prisma.post.update({
+      where: { id },
+      data: { title, content },
+    });
+
+    res.json({ message: 'Post atualizado com sucesso', post });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: 'Erro ao atualizar post' });
+  }
+};
+
+// DELETE /posts/:id
+exports.deletePost = async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    await prisma.post.delete({
+      where: { id },
+    });
+
+    res.json({ message: 'Post deletado com sucesso' });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: 'Erro ao deletar post' });
   }
 };

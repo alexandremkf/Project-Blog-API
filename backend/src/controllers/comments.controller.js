@@ -82,3 +82,23 @@ exports.unpublishComment = async (req, res) => {
     });
   }
 };
+
+// PUT /comments/:id
+exports.deleteComment = async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    await prisma.comment.delete({
+      where: { id },
+    });
+
+    res.json({ message: 'Comentário deletado com sucesso' });
+  } catch (err) {
+    console.error('Erro ao deletar comentário:', err);
+
+    res.status(400).json({
+      error: 'Erro ao deletar comentário',
+      details: err.message,
+    });
+  }
+};
