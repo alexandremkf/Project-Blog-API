@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Post</h1>
+    <a href="index.html">Voltar</a>
+  </header>
+
+  <main>
+    <article id="post-container"></article>
+
+    <section id="comments-container">
+      <h3>Comentários</h3>
+      <form id="comment-form">
+        <input type="text" id="username" placeholder="Seu nome" required />
+        <textarea id="content" placeholder="Seu comentário" required></textarea>
+        <button type="submit">Comentar</button>
+      </form>
+      <div id="comments-list"></div>
+    </section>
+  </main>
+
+  <script src="js/post.js"></script>
+</body>
+</html>

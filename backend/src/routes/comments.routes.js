@@ -15,8 +15,8 @@ const { authorizeRoles } = require('../middleware/role.middleware');
 // Rotas públicas
 router.get('/post/:postId', commentsController.getCommentsByPost); // Listar comentários de um post
 
-// Rotas protegidas (usuário logado)
-router.post('/:postId', authenticate, authorizeRoles('USER', 'AUTHOR', 'ADMIN'), commentsController.createComment); // Criar comentário
+// Rotas públicas (usuário logado)
+router.post('/:postId', commentsController.createComment); // Criar comentário
 
 // Publicar / despublicar comentários
 router.put('/:id/publish', authenticate, authorizeRoles('ADMIN', 'USER'), commentsController.publishComment);
