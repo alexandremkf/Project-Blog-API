@@ -36,7 +36,7 @@ let editingPostId = null; // CONTROLA EDIÇÃO
 
 async function fetchAllPosts() {
   try {
-    const res = await fetch('http://localhost:3000/posts/admin', {
+    const res = await fetch('https://blog-api-m84c.onrender.com/posts', {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -84,12 +84,12 @@ postForm.addEventListener('submit', async (e) => {
   };
 
   try {
-    let url = 'http://localhost:3000/posts';
+    let url = 'https://blog-api-m84c.onrender.com/posts';
     let method = 'POST';
 
     // MODO EDIÇÃO
     if (editingPostId) {
-      url = `http://localhost:3000/posts/${editingPostId}`;
+      url = `https://blog-api-m84c.onrender.com/posts/${editingPostId}`;
       method = 'PUT';
     }
 
@@ -155,7 +155,7 @@ function resetForm() {
 async function togglePublish(postId, isPublished) {
   const endpoint = isPublished ? 'unpublish' : 'publish';
 
-  await fetch(`http://localhost:3000/posts/${postId}/${endpoint}`, {
+  await fetch(`https://blog-api-m84c.onrender.com/posts/${postId}/${endpoint}`, {
     method: 'PUT',
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -166,7 +166,7 @@ async function togglePublish(postId, isPublished) {
 async function deletePost(postId) {
   if (!confirm('Tem certeza que deseja excluir este post?')) return;
 
-  const res = await fetch(`http://localhost:3000/posts/${postId}`, {
+  const res = await fetch(`https://blog-api-m84c.onrender.com/posts/${postId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -186,7 +186,7 @@ async function deletePost(postId) {
 
 async function fetchAllComments() {
   try {
-    const res = await fetch('http://localhost:3000/comments/admin', {
+    const res = await fetch('https://blog-api-m84c.onrender.com/comments', {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -221,7 +221,7 @@ async function fetchAllComments() {
 async function deleteComment(commentId) {
   if (!confirm('Deseja excluir este comentário?')) return;
 
-  await fetch(`http://localhost:3000/comments/${commentId}`, {
+  await fetch(`https://blog-api-m84c.onrender.com/comments/${commentId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` },
   });
