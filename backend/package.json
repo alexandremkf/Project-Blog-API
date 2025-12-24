@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "nodemon server.js",
     "build": "prisma generate",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "engines": {
-    "node": "18.0"
+    "node": "18.20.4"
   },
   "keywords": [],
   "author": "",
