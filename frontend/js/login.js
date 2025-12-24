@@ -13,6 +13,12 @@ form.addEventListener('submit', async (e) => {
       body: JSON.stringify({ email, password })
     });
 
+    function parseJwt(token) {
+      const base64Payload = token.split('.')[1];
+      const payload = atob(base64Payload);
+      return JSON.parse(payload);
+    }
+    
     const data = await res.json();
 
     if (!res.ok) {
@@ -20,15 +26,15 @@ form.addEventListener('submit', async (e) => {
       return;
     }
 
-    // ✅ 1. Salva token
+    // Salva token
     localStorage.setItem('token', data.token);
 
-    // (opcional, mas recomendado)
-    localStorage.setItem('role', data.role || '');
+    // 🔥 Extrai role do token
+    const decoded = parseJwt(data.token);
+    localStorage.setItem('role', decoded.role);
 
-    // ✅ 2. Redireciona para home
+    // Redireciona
     window.location.href = 'index.html';
-
   } catch (error) {
     console.error(error);
     alert('Erro ao conectar com o servidor');

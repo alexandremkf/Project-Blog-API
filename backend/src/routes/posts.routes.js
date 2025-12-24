@@ -13,16 +13,26 @@ const { authorizeRoles } = require('../middleware/role.middleware');
  */
 
 // Rotas públicas
-router.get('/', postsController.getPublishedPosts); // Listar todos posts publicados
-router.get('/:id', postsController.getPostById);    // Buscar post específico pelo id
+router.get('/', postsController.getPublishedPosts);
 
-// Rotas protegidas (somente ADMIN ou AUTHOR)
-router.post('/', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.createPost); // Criar post
-router.put('/:id', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.updatePost); // Atualizar post
-router.delete('/:id', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.deletePost); // Deletar post
+// ⚠️ ROTA ADMIN TEM QUE VIR ANTES DO :id
+router.get(
+  '/admin',
+  authenticate,
+  authorizeRoles('ADMIN', 'AUTHOR'),
+  postsController.getAllPosts
+);
 
-// Publicar / despublicar posts
-router.put('/:id/publish', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.publishPost); 
+// Rotas públicas
+router.get('/:id', postsController.getPostById);
+
+// Rotas protegidas
+router.post('/', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.createPost);
+router.put('/:id', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.updatePost);
+router.delete('/:id', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.deletePost);
+
+// Publicar / despublicar
+router.put('/:id/publish', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.publishPost);
 router.put('/:id/unpublish', authenticate, authorizeRoles('ADMIN', 'AUTHOR'), postsController.unpublishPost);
 
 module.exports = router;

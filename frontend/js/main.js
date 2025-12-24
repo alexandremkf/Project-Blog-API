@@ -4,9 +4,11 @@ const postsContainer = document.getElementById('posts-container');
 const loginBtn = document.getElementById('login-btn');
 const registerBtn = document.getElementById('register-btn');
 const logoutBtn = document.getElementById('logout-btn');
+const dashboardBtn = document.getElementById('dashboard-btn');
 
 // Token salvo após login
 const token = localStorage.getItem('token');
+const role = localStorage.getItem('role');
 
 /**
  * CONTROLE DE UI (LOGIN / LOGOUT)
@@ -15,6 +17,10 @@ if (token) {
   if (loginBtn) loginBtn.style.display = 'none';
   if (registerBtn) registerBtn.style.display = 'none';
   if (logoutBtn) logoutBtn.style.display = 'inline-block';
+}
+
+if (token && (role === 'ADMIN' || role === 'AUTHOR')) {
+  if (dashboardBtn) dashboardBtn.style.display = 'inline-block';
 }
 
 if (logoutBtn) {

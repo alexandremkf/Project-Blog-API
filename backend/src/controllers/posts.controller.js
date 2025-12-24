@@ -2,6 +2,21 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 /**
+ * GET /posts/admin
+ * Lista todos os posts (incluindo não publicados) - Somente ADMIN ou AUTHOR
+ */
+exports.getAllPosts = async (req, res) => {
+  const posts = await prisma.post.findMany({
+    include: {
+      author: { select: { username: true } },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  res.json(posts);
+};
+
+/**
  * GET /posts
  * Lista todos os posts publicados
  */

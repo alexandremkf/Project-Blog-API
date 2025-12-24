@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="top-bar">
+  <h1 class="logo">Dashboard</h1>
+
+  <nav class="nav-actions">
+    <a href="index.html" class="nav-btn">Voltar ao Blog</a>
+    <button id="logout-btn" class="nav-btn logout-btn">Logout</button>
+  </nav>
+</header>
+
+<main class="dashboard">
+
+  <section class="create-post">
+    <h2>Novo Post</h2>
+
+    <form id="post-form">
+      <input id="title" type="text" placeholder="Título" required />
+      <textarea id="content" placeholder="Conteúdo" required></textarea>
+      <button type="submit">Publicar</button>
+    </form>
+  </section>
+
+  <section class="posts-list">
+    <h2>Todos os Posts</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody id="posts-table">
+        <!-- dashboard.js preenche -->
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>
