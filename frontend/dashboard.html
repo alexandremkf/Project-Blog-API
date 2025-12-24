@@ -19,12 +19,12 @@
 <main class="dashboard">
 
   <section class="create-post">
-    <h2>Novo Post</h2>
+    <h2 id="form-title">Criar Novo Post</h2>
 
     <form id="post-form">
       <input id="title" type="text" placeholder="Título" required />
       <textarea id="content" placeholder="Conteúdo" required></textarea>
-      <button type="submit">Publicar</button>
+      <button id="submit-btn">Criar Post</button>
     </form>
   </section>
 
@@ -44,6 +44,24 @@
       <tbody id="posts-table">
         <!-- dashboard.js preenche -->
       </tbody>
+    </table>
+  </section>
+
+  <section class="comments-list">
+    <h2>Comentários</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Usuário</th>
+          <th>Comentário</th>
+          <th>Post</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+
+      <tbody id="comments-table"></tbody>
+        <!-- dashboard.js preenche -->
     </table>
   </section>
 

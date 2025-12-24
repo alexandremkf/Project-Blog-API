@@ -100,3 +100,25 @@ exports.deleteComment = async (req, res) => {
     res.status(400).json({ error: 'Erro ao deletar comentário', details: err.message });
   }
 };
+
+/**
+ * GET /comments/admin
+ * Lista TODOS os comentários (ADMIN / AUTHOR)
+ */
+exports.getAllComments = async (req, res) => {
+  try {
+    const comments = await prisma.comment.findMany({
+      include: {
+        post: {
+          select: { title: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    res.json(comments);
+  } catch (err) {
+    console.error('Erro ao buscar todos os comentários:', err);
+    res.status(500).json({ error: 'Erro ao buscar comentários' });
+  }
+};

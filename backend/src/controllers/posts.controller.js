@@ -51,7 +51,14 @@ exports.getPostById = async (req, res) => {
       },
     });
 
-    if (!post || !post.published) return res.status(404).json({ error: 'Post não encontrado' });
+    if (!post) {
+      return res.status(404).json({ error: 'Post não encontrado' });
+    }
+
+    // Se não for publicado, só ADMIN/AUTHOR pode ver
+    if (!post.published && (!req.user || (req.user.role !== 'ADMIN' && req.user.role !== 'AUTHOR'))) {
+      return res.status(403).json({ error: 'Acesso negado' });
+    }
 
     res.json(post);
   } catch (err) {
@@ -146,6 +153,16 @@ exports.updatePost = async (req, res) => {
  */
 exports.deletePost = async (req, res) => {
   const id = Number(req.params.id);
+
+  const commentsCount = await prisma.comment.count({
+    where: { postId: id },
+  });
+
+  if (commentsCount > 0) {
+    return res.status(400).json({
+      error: 'Não é possível excluir um post que possui comentários.',
+    });
+  }
 
   try {
     await prisma.post.delete({ where: { id } });
